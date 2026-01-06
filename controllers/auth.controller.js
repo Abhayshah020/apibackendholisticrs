@@ -35,11 +35,10 @@ exports.login = async (req, res) => {
 
         // ✅ SET JWT IN COOKIE
         res.cookie("accessToken", token, {
-            httpOnly: true,              // VERY IMPORTANT
-            secure: true,
-            sameSite: "lax",
-            maxAge: 24 * 60 * 60 * 1000, // 1 day
-            path: "/",
+            httpOnly: true,
+            secure: true,       // ✅ required for SameSite=None
+            sameSite: "none",   // ✅ must be none for cross-site
+            maxAge: 24 * 60 * 60 * 1000,
         });
 
         return res.json({

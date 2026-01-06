@@ -19,13 +19,10 @@ app.use(morgan("dev"));
 app.use(cookieParser());
 
 app.use(cors({
-    origin: [
-        "https://holisticrs.com.au",
-    ],
+    origin: "https://holisticrs.com.au",
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
-
-    credentials: true,
+    credentials: true, // ✅ allow cookies
 }));
 
 app.use(express.json());

@@ -24,7 +24,7 @@ const Recruitment = sequelize.define("Recruitment", {
     },
 
     numberOfVacancies: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: true,
     },
 

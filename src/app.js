@@ -7,7 +7,7 @@ const app = require("../routes");
 
 const server = http.createServer(app);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5024;
 
 (async () => {
     try {

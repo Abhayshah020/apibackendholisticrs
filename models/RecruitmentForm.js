@@ -59,7 +59,7 @@ const Recruitment = sequelize.define("Recruitment", {
     },
 
     totalCostToCandidate: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
     },
 
@@ -69,7 +69,7 @@ const Recruitment = sequelize.define("Recruitment", {
     },
 
     visaPackageCost: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
     },
 

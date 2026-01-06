@@ -29,7 +29,7 @@ const Recruitment = sequelize.define("Recruitment", {
     },
 
     salary: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
     },
 

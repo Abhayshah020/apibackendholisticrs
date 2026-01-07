@@ -153,7 +153,7 @@ exports.updateRecruitment = async (req, res) => {
         }
 
         const { id } = req.params;
-        const body = req.body;
+        const body = { ...req.body };
         const files = req.files || {};
 
         const recruitment = await Recruitment.findByPk(id);
@@ -169,6 +169,7 @@ exports.updateRecruitment = async (req, res) => {
             "frequentlyAskedQuestions",
         ];
 
+        // ✅ Handle uploaded files
         fileFields.forEach((field) => {
             if (files[field]?.[0]) {
                 if (recruitment[field]) {
@@ -178,6 +179,9 @@ exports.updateRecruitment = async (req, res) => {
                 recruitment[field] = `/uploads/recruitments/${files[field][0].filename}`;
             }
         });
+
+        // ❗ Remove file fields from body
+        fileFields.forEach((field) => delete body[field]);
 
         await recruitment.update({
             ...body,
@@ -191,9 +195,11 @@ exports.updateRecruitment = async (req, res) => {
 
         res.json(recruitment);
     } catch (err) {
+        console.error(err);
         res.status(500).json({ error: err.message });
     }
 };
+
 
 exports.deleteRecruitment = async (req, res) => {
     try {

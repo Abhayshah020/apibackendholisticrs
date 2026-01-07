@@ -16,10 +16,20 @@ const parseJSON = (val, fallback = []) => {
     }
 };
 
-const getFilePath = (files, field) =>
-    files?.[field]?.[0]
-        ? `/uploads/recruitments/${files[field][0].filename}`
-        : null;
+const getFilePath = (files, field) => {
+    const file = files?.[field]?.[0];
+    if (!file) return null;
+
+    if (file.mimetype.startsWith("image/")) {
+        return `/uploads/recruitments/images/${file.filename}`;
+    }
+
+    if (file.mimetype === "application/pdf") {
+        return `/uploads/recruitments/pdfs/${file.filename}`;
+    }
+
+    return null;
+};
 
 /* -------------------- controller -------------------- */
 exports.createRecruitment = async (req, res) => {
@@ -223,13 +233,19 @@ exports.deleteRecruitment = async (req, res) => {
         ];
 
         fileFields.forEach((field) => {
-            if (recruitment[field]) {
-                const filePath = path.join(process.cwd(), recruitment[field]);
-                if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+            const fileUrl = recruitment[field];
+            if (!fileUrl) return;
+
+            // Handles both old & new paths safely
+            const absolutePath = path.resolve(process.cwd(), fileUrl);
+
+            if (fs.existsSync(absolutePath)) {
+                fs.unlinkSync(absolutePath);
             }
         });
 
         await recruitment.destroy();
+
         res.json({ message: "Recruitment deleted successfully" });
     } catch (err) {
         res.status(500).json({ error: err.message });

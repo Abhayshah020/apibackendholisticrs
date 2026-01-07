@@ -4,10 +4,20 @@ const { Op } = require('sequelize');
 /**
  * CREATE
  */
-const getFilePath = (files, field) =>
-    files?.[field]?.[0]
-        ? `/uploads/recruitments/${files[field][0].filename}`
-        : null;
+const getFilePath = (files, field) => {
+    const file = files?.[field]?.[0];
+    if (!file) return null;
+
+    if (file.mimetype.startsWith("image/")) {
+        return `/uploads/recruitments/images/${file.filename}`;
+    }
+
+    if (file.mimetype === "application/pdf") {
+        return `/uploads/recruitments/pdfs/${file.filename}`;
+    }
+
+    return null;
+};
 
 
 exports.createAgentReferral = async (req, res) => {

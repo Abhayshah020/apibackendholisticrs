@@ -9,22 +9,22 @@ const Recruitment = sequelize.define("Recruitment", {
     },
 
     project: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
     },
 
     vacancyLocations: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
     },
 
     workEnvironment: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
     },
 
     numberOfVacancies: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
     },
 
@@ -49,12 +49,12 @@ const Recruitment = sequelize.define("Recruitment", {
     },
 
     referralLinkContact: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
     },
 
     companies: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
     },
 
@@ -84,27 +84,27 @@ const Recruitment = sequelize.define("Recruitment", {
     },
 
     agePreference: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
     },
 
     nationalityPreference: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
     },
 
     genderPreference: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
     },
 
     licenceCar: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
     },
 
     homeCountryRegistration: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
     },
 
@@ -119,37 +119,37 @@ const Recruitment = sequelize.define("Recruitment", {
     },
 
     englishIELTS: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
     },
 
     otherLanguage: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
     },
 
     skillAssessmentsRequired: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
     },
 
     testing: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
     },
 
     documentationVerification: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
     },
 
     visaProcessTime: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
     },
 
     agentIntroductoryVisaCost: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
     },
 
@@ -159,7 +159,7 @@ const Recruitment = sequelize.define("Recruitment", {
     },
 
     prOffered: {
-        type: DataTypes.STRING, // Y / N (as per curl)
+        type: DataTypes.TEXT, // Y / N (as per curl)
         allowNull: true,
     },
 
@@ -174,7 +174,7 @@ const Recruitment = sequelize.define("Recruitment", {
     },
 
     workHours: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
     },
 
@@ -203,27 +203,27 @@ const Recruitment = sequelize.define("Recruitment", {
 
     // ✅ FILE PATHS (Images / PDFs)
     marketingFlyer: {
-        type: DataTypes.STRING, // stored path
+        type: DataTypes.TEXT, // stored path
         allowNull: true,
     },
 
     vacancyFlyer: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
     },
 
     candidateIdRequirements: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
     },
 
     processFlowchart: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
     },
 
     frequentlyAskedQuestions: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
     },
 }, {

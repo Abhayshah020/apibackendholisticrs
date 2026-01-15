@@ -180,19 +180,23 @@ exports.updateRecruitment = async (req, res) => {
 
         const updatePayload = { ...body };
 
-        /* ---------- CLEAN BODY (VERY IMPORTANT) ---------- */
+        /* ---------- IMPORTANT: REMOVE FILE FIELDS FROM BODY ---------- */
         fileFields.forEach((field) => delete updatePayload[field]);
 
-        /* ---------- FILE HANDLING ---------- */
+        /* ---------- FILE HANDLING (USING getFilePath) ---------- */
         fileFields.forEach((field) => {
-            if (files[field]?.[0]) {
-                // delete old file
+            const newPath = getFilePath(files, field);
+
+            if (newPath) {
+                // delete old file if exists
                 if (recruitment[field]) {
                     const oldPath = path.join(process.cwd(), recruitment[field]);
-                    if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+                    if (fs.existsSync(oldPath)) {
+                        fs.unlinkSync(oldPath);
+                    }
                 }
 
-                updatePayload[field] = `/uploads/recruitments/${files[field][0].filename}`;
+                updatePayload[field] = newPath;
             }
         });
 
@@ -212,16 +216,16 @@ exports.updateRecruitment = async (req, res) => {
             message: "Recruitment updated successfully",
             data: recruitment,
         });
-
-    } catch (err) {
-        console.error("Update Recruitment Error:", err);
+    } catch (error) {
+        console.error("Update Recruitment Error:", error);
         return res.status(500).json({
             success: false,
             message: "Failed to update recruitment",
-            error: err.message,
+            error: error.message,
         });
     }
 };
+
 
 
 

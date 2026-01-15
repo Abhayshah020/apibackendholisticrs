@@ -163,8 +163,7 @@ exports.updateRecruitment = async (req, res) => {
         }
 
         const { id } = req.params;
-        const body = { ...req.body };
-        const files = req.files || {};
+        const { body, files = {} } = req;
 
         const recruitment = await Recruitment.findByPk(id);
         if (!recruitment) {
@@ -181,7 +180,10 @@ exports.updateRecruitment = async (req, res) => {
 
         const updatePayload = { ...body };
 
-        // ✅ Handle uploaded files
+        /* ---------- CLEAN BODY (VERY IMPORTANT) ---------- */
+        fileFields.forEach((field) => delete updatePayload[field]);
+
+        /* ---------- FILE HANDLING ---------- */
         fileFields.forEach((field) => {
             if (files[field]?.[0]) {
                 // delete old file
@@ -194,23 +196,33 @@ exports.updateRecruitment = async (req, res) => {
             }
         });
 
-        // ❗ Parse JSON fields safely
+        /* ---------- JSONB FIELDS ---------- */
         if (body.countryTags) {
-            updatePayload.countryTags = JSON.parse(body.countryTags);
+            updatePayload.countryTags = parseJSON(body.countryTags);
         }
 
         if (body.vacancyTypeTags) {
-            updatePayload.vacancyTypeTags = JSON.parse(body.vacancyTypeTags);
+            updatePayload.vacancyTypeTags = parseJSON(body.vacancyTypeTags);
         }
 
         await recruitment.update(updatePayload);
 
-        res.json(recruitment);
+        return res.json({
+            success: true,
+            message: "Recruitment updated successfully",
+            data: recruitment,
+        });
+
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: err.message });
+        console.error("Update Recruitment Error:", err);
+        return res.status(500).json({
+            success: false,
+            message: "Failed to update recruitment",
+            error: err.message,
+        });
     }
 };
+
 
 
 

@@ -12,7 +12,7 @@ const agentReferral = require("./agentReferral.routes");
 
 const app = express();
 
-app.use(express.json({ limit: "10mb" }));
+app.use(express.json({ limit: "30mb" }));
 
 app.use(morgan("dev"));
 

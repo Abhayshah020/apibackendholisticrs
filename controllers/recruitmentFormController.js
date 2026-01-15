@@ -179,29 +179,31 @@ exports.updateRecruitment = async (req, res) => {
             "frequentlyAskedQuestions",
         ];
 
+        const updatePayload = { ...body };
+
         // ✅ Handle uploaded files
         fileFields.forEach((field) => {
             if (files[field]?.[0]) {
+                // delete old file
                 if (recruitment[field]) {
                     const oldPath = path.join(process.cwd(), recruitment[field]);
                     if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
                 }
-                recruitment[field] = `/uploads/recruitments/${files[field][0].filename}`;
+
+                updatePayload[field] = `/uploads/recruitments/${files[field][0].filename}`;
             }
         });
 
-        // ❗ Remove file fields from body
-        fileFields.forEach((field) => delete body[field]);
+        // ❗ Parse JSON fields safely
+        if (body.countryTags) {
+            updatePayload.countryTags = JSON.parse(body.countryTags);
+        }
 
-        await recruitment.update({
-            ...body,
-            countryTags: body.countryTags
-                ? JSON.parse(body.countryTags)
-                : recruitment.countryTags,
-            vacancyTypeTags: body.vacancyTypeTags
-                ? JSON.parse(body.vacancyTypeTags)
-                : recruitment.vacancyTypeTags,
-        });
+        if (body.vacancyTypeTags) {
+            updatePayload.vacancyTypeTags = JSON.parse(body.vacancyTypeTags);
+        }
+
+        await recruitment.update(updatePayload);
 
         res.json(recruitment);
     } catch (err) {
@@ -209,6 +211,7 @@ exports.updateRecruitment = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
 
 
 exports.deleteRecruitment = async (req, res) => {
